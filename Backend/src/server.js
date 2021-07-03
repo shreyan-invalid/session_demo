@@ -5,6 +5,7 @@ import { userRoutes, sessionRoutes } from './routes/index';
 import { PORT, NODE_ENV, MONGO_URI, SESS_NAME, SESS_SECRET, SESS_LIFETIME} from './config';
 import session from "express-session";
 import connectStore from "connect-mongo";
+import cors from 'cors';
 
 
 (async () => {
@@ -18,6 +19,12 @@ import connectStore from "connect-mongo";
         app.disable('x-powered-by');
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json());
+        app.use(
+          cors({
+            origin: "http://localhost:3000", // <-- location of the react app were connecting to
+            credentials: true,
+          })
+        );
 
 
         const MongoStore = new connectStore(session);
